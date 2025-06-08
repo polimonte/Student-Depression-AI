@@ -1,0 +1,125 @@
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.hero {
+  position: relative;
+  background-image: url('../../assets/banner 2.jpg');
+  background-size: cover;
+  background-position: center;
+  padding: 80px 40px;
+  border-radius: 8px;
+  margin-bottom: 40px;
+}
+
+.hero-overlay {
+  position: relative;
+  z-index: 2;
+  color: white;
+  /* Altere a cor do texto conforme necessário */
+  max-width: 50%;
+}
+
+.hero::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  /* Overlay escuro para melhor legibilidade */
+  border-radius: 8px;
+  z-index: 1;
+}
+
+.hero h1 {
+  font-size: 48px;
+  line-height: 1.2;
+  margin-bottom: 20px;
+}
+
+.subtitle {
+  font-size: 18px;
+  line-height: 1.5;
+  margin-bottom: 40px;
+}
+
+.buttons {
+  display: flex;
+  gap: 20px;
+}
+
+.hero-image {
+  flex: 1;
+  max-width: 50%;
+  height: auto;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.important {
+  position: relative;
+  color: #535353;
+  background-color: #c8ddeb;
+  padding: 50px 40px;
+  border-radius: 8px;
+  margin-bottom: 40px;
+}
+
+.additional-text {
+  font-size: 2rem;
+  justify-self: center;
+}
+
+.definition {
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  grid-template-rows: repeat(2, auto);
+  grid-column-gap: 15px;
+  grid-row-gap: 0px;
+
+  color: #535353;
+  background-color: #a4ceea;
+  padding: 50px 40px 0 40px;
+  border-radius: 8px;
+  margin-bottom: 40px;
+}
+
+.definition h2 {
+  font-size: 4rem;
+  color: white;
+  text-shadow: #535353;
+  text-decoration: dashed;
+  text-decoration-line: underline;
+  text-decoration-color: #535353;
+}
+
+.definition-text {
+  grid-area: 1 / 2 / 2 / 3;
+  text-align: end;
+}
+
+
+.symptoms {
+  grid-area: 2 / 2 / 3 / 3;
+  padding-bottom: 50px;
+  background-color: #8fc7ee;
+}
+
+.definition li {
+  list-style-type: none;
+  font-size: 18px;
+  line-height: 1.5;
+}
+
+.dados {
+  position: relative;
+  background-color: #76b7e4;
+  padding: 80px 40px;
+  border-radius: 8px;
+  margin-bottom: 40px;
+}

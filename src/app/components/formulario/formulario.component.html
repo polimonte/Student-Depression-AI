@@ -1,0 +1,101 @@
+<div class="form-container">
+  <h1>Questionário de Saúde Mental</h1>
+
+  <form [formGroup]="form" (ngSubmit)="onSubmit()" *ngIf="!result; else resultTemplate">
+    <div class="form-group">
+      <label>Suicidal Thoughts:</label>
+      <div class="radio-group">
+        <label>
+          <input type="radio" formControlName="suicidalThoughts" value="yes"> Yes
+        </label>
+        <label>
+          <input type="radio" formControlName="suicidalThoughts" value="no"> No
+        </label>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label>Financial Stress (1 to 5):</label>
+      <input type="number" formControlName="financialStress" min="1" max="5">
+    </div>
+
+    <div class="form-group">
+      <label>Academic Pressure (1 to 5):</label>
+      <input type="number" formControlName="academicPressure" min="1" max="5">
+    </div>
+
+    <div class="form-group">
+      <label>Sleep Duration:</label>
+      <select formControlName="sleepDuration">
+        <option value="less_than_4h">Less than 4h</option>
+        <option value="4_to_6h">4 to 6h</option>
+        <option value="6_to_8h">6 to 8h</option>
+        <option value="more_than_8h">More than 8h</option>
+      </select>
+    </div>
+
+    <div class="form-group">
+      <label>Family History of Mental Illness:</label>
+      <div class="radio-group">
+        <label>
+          <input type="radio" formControlName="familyHistory" value="yes"> Yes
+        </label>
+        <label>
+          <input type="radio" formControlName="familyHistory" value="no"> No
+        </label>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label>CGPA (Grade Point Average):</label>
+      <input type="number" formControlName="cgpa" min="0" max="10" step="0.1">
+    </div>
+
+    <div class="form-group">
+      <label>Study Satisfaction (1 to 5):</label>
+      <input type="number" formControlName="studySatisfaction" min="1" max="5">
+    </div>
+
+    <div class="form-group">
+      <label>Work/Study Hours:</label>
+      <select formControlName="workStudyHours">
+        <option value="0_2h">0-2h</option>
+        <option value="2_4h">2-4h</option>
+        <option value="4_6h">4-6h</option>
+        <option value="6h_or_more">6h or more</option>
+      </select>
+    </div>
+
+    <div class="form-group">
+      <label>Dietary Habits:</label>
+      <select formControlName="dietaryHabits">
+        <option value="healthy">Healthy</option>
+        <option value="moderate">Moderate</option>
+        <option value="poor">Poor</option>
+        <option value="unhealthy">Unhealthy</option>
+      </select>
+    </div>
+
+    <div class="form-group">
+      <label>Age:</label>
+      <input type="number" formControlName="age" min="12" max="100">
+    </div>
+
+    <button type="submit" [disabled]="form.invalid || loading">
+      {{ loading ? 'Processando...' : 'Enviar' }}
+    </button>
+
+    <div *ngIf="error" class="error-message">
+      {{ error }}
+    </div>
+  </form>
+
+  <ng-template #resultTemplate>
+    <div class="result-container">
+      <h2>Resultado da Análise</h2>
+      <p><strong>Status:</strong> {{ result.resultado }}</p>
+      <p><strong>Probabilidade:</strong> {{ result.probabilidade }}%</p>
+      <button (click)="result = null">Realizar nova análise</button>
+    </div>
+  </ng-template>
+</div>
