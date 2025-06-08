@@ -57,7 +57,10 @@ export class FormularioComponent {
       age: formData.age
     };
 
-    this.http.post('http://localhost:5000/prever', requestData).subscribe({
+    // Ajuste a URL conforme sua configuração
+    const apiUrl = 'https://wonderful-mercy.railway.app/prever';
+
+    this.http.post(apiUrl, requestData).subscribe({
       next: (response: any) => {
         this.result = response;
         this.loading = false;
@@ -76,32 +79,32 @@ export class FormularioComponent {
   }
 
   private mapSleepDuration(value: string): number {
-    const map: { [key: string]: number } = {
+    const map: Record<string, number> = {
       'less_than_4h': 0,
       '4_to_6h': 1,
       '6_to_8h': 2,
       'more_than_8h': 3
     };
-    return map[value] || 1;
+    return map[value] ?? 1;
   }
 
   private mapWorkStudyHours(value: string): number {
-    const map: { [key: string]: number } = {
+    const map: Record<string, number> = {
       '0_2h': 0,
       '2_4h': 1,
       '4_6h': 2,
       '6h_or_more': 3
     };
-    return map[value] || 2;
+    return map[value] ?? 2;
   }
 
   private mapDietaryHabits(value: string): string {
-    const map: { [key: string]: string } = {
+    const map: Record<string, string> = {
       'healthy': 'Saudável',
       'moderate': 'Moderado',
       'poor': 'Ruim',
       'unhealthy': 'Não Saudável'
     };
-    return map[value] || 'Moderado';
+    return map[value] ?? 'Moderado';
   }
 }
