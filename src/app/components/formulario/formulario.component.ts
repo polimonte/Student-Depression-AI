@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
+import { environment } from '../../../environments/environment';
 
 @Component({
   selector: 'app-formulario',
@@ -57,17 +58,15 @@ export class FormularioComponent {
       age: formData.age
     };
 
-    // Ajuste a URL conforme sua configuração
-    const apiUrl = 'https://wonderful-mercy.railway.app/prever';
-
-    this.http.post(apiUrl, requestData).subscribe({
-      next: (response: any) => {
+    this.http.post(`${environment.apiUrl}/predict`, requestData).subscribe({
+      next: (response) => {
+        // Handle successful prediction
         this.result = response;
-        this.loading = false;
       },
       error: (err) => {
-        this.error = err.error?.erro || 'Erro ao processar a requisição';
-        this.loading = false;
+        // Handle errors (show user-friendly messages)
+        this.error = 'Failed to connect to the server. Please try later.';
+        console.error('API Error:', err);
       }
     });
   }
