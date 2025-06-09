@@ -1,10 +1,13 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, type HttpErrorResponse } from '@angular/common/http';
 import { environment } from '../../../environments/environment';
+import { catchError, take } from 'rxjs/operators';
+import { throwError } from 'rxjs';
 
 @Component({
+  standalone: true,
   selector: 'app-formulario',
   imports: [
     CommonModule,
@@ -58,17 +61,29 @@ export class FormularioComponent {
       age: formData.age
     };
 
-    this.http.post(`${environment.apiUrl}/predict`, requestData).subscribe({
-      next: (response) => {
-        // Handle successful prediction
-        this.result = response;
-      },
-      error: (err) => {
-        // Handle errors (show user-friendly messages)
-        this.error = 'Failed to connect to the server. Please try later.';
-        console.error('API Error:', err);
-      }
-    });
+    this.http.post(`${environment.apiUrl}/predict`, requestData)
+      .pipe(
+        take(1),
+        catchError((error: HttpErrorResponse) => {
+          this.loading = false;
+          if (error.status === 0) {
+            this.error = 'Could not connect to the server. Please make sure the backend is running.';
+          } else {
+            this.error = 'An unexpected error occurred. Please try again.';
+          }
+          return throwError(() => error);
+        })
+      )
+      .subscribe({
+        next: (response) => {
+          this.loading = false;
+          this.result = response;
+        },
+        error: (err) => {
+          // Error already handled by catchError
+          console.error('API Error:', err);
+        }
+      });
   }
 
   private markAllAsTouched() {
