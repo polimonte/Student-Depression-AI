@@ -1,4 +1,4 @@
 export const environment = {
-  production: false,
-  apiUrl: 'http://localhost:5000' // For local development only
+  production: true,
+  apiUrl: 'https://depression-prediction-ifpu.onrender.com' // For local development only
 };
