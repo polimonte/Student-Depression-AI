@@ -22,6 +22,14 @@ export class FormularioComponent {
   result: any = null;
   error: string | null = null;
 
+  // ✅ Adiciona a propriedade que estava faltando
+  dietOptions = [
+    { label: 'Healthy', value: 'healthy' },
+    { label: 'Moderate', value: 'moderate' },
+    { label: 'Poor', value: 'poor' },
+    { label: 'Unhealthy', value: 'unhealthy' }
+  ];
+
   constructor(private fb: FormBuilder, private http: HttpClient) {
     this.form = this.fb.group({
       suicidalThoughts: ['no', Validators.required],

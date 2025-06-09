@@ -42,12 +42,8 @@ nav a {
 }
 
 nav a:hover {
-  background-color: #eee;
-}
-
-nav a.active {
   background-color: #535353;
-  color: white;
+  color: rgb(253, 244, 161);
 }
 
 .buttons button {

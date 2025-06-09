@@ -1,101 +1,148 @@
 <div class="form-container">
-  <h1>HOW ARE YOU FEELING?</h1>
+  <div class="form-card">
+    <h1 class="titulo-form">How are you feeling?</h1>
 
-  <form [formGroup]="form" (ngSubmit)="onSubmit()" *ngIf="!result; else resultTemplate">
-    <div class="form-group">
-      <label>Suicidal Thoughts:</label>
-      <div class="radio-group">
-        <label>
-          <input type="radio" formControlName="suicidalThoughts" value="yes"> Yes
-        </label>
-        <label>
-          <input type="radio" formControlName="suicidalThoughts" value="no"> No
-        </label>
+    <form [formGroup]="form" (ngSubmit)="onSubmit()" *ngIf="!result; else resultTemplate">
+      <div class="form-grid">
+        <!-- Column 1 -->
+        <div class="form-column">
+          <div class="form-group">
+            <label>Suicidal Thoughts</label>
+            <div class="radio-group">
+              <label class="radio-option">
+                <input type="radio" formControlName="suicidalThoughts" value="yes">
+                <span class="radio-checkmark"></span>
+                Yes
+              </label>
+              <label class="radio-option">
+                <input type="radio" formControlName="suicidalThoughts" value="no">
+                <span class="radio-checkmark"></span>
+                No
+              </label>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label>Financial Stress <span class="rating">(1-5)</span></label>
+            <div class="rating-stars">
+              <span *ngFor="let star of [1,2,3,4,5]" (click)="form.get('financialStress')?.setValue(star)" [class.active]="form.value.financialStress >= star">★</span>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label>Academic Pressure <span class="rating">(1-5)</span></label>
+            <div class="rating-stars">
+              <span *ngFor="let star of [1,2,3,4,5]" (click)="form.get('academicPressure')?.setValue(star)" [class.active]="form.value.academicPressure >= star">★</span>
+            </div>
+          </div>
+          <div class="form-group">
+            <label>Study Satisfaction <span class="rating">(1-5)</span></label>
+            <div class="rating-stars">
+              <span *ngFor="let star of [1,2,3,4,5]" (click)="form.get('studySatisfaction')?.setValue(star)" [class.active]="form.value.studySatisfaction >= star">★</span>
+            </div>
+          </div>
+          <div class="form-group">
+            <label>Dietary Habits</label>
+            <div class="diet-options">
+              <label *ngFor="let option of dietOptions" class="diet-option">
+                <input type="radio" formControlName="dietaryHabits" [value]="option.value">
+                <span class="diet-label" [class.active]="form.value.dietaryHabits === option.value">
+                  {{ option.label }}
+                </span>
+              </label>
+            </div>
+          </div>
+        </div>
+
+
+
+        <!-- Column 2 -->
+        <div class="form-column">
+          <div class="form-group">
+            <label>Sleep Duration</label>
+            <select formControlName="sleepDuration" class="styled-select">
+              <option value="less_than_4h">Less than 4h</option>
+              <option value="4_to_6h">4 to 6h</option>
+              <option value="6_to_8h">6 to 8h</option>
+              <option value="more_than_8h">More than 8h</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label>Family History</label>
+            <div class="radio-group">
+              <label class="radio-option">
+                <input type="radio" formControlName="familyHistory" value="yes">
+                <span class="radio-checkmark"></span>
+                Yes
+              </label>
+              <label class="radio-option">
+                <input type="radio" formControlName="familyHistory" value="no">
+                <span class="radio-checkmark"></span>
+                No
+              </label>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label>CGPA (Grade Point Average)</label>
+            <div class="range-slider">
+              <input type="range" formControlName="cgpa" min="0" max="10" step="0.1" class="slider">
+              <span class="slider-value">{{ form.value.cgpa }}</span>
+            </div>
+          </div>
+          <div class="form-group">
+            <label>Work/Study Hours</label>
+            <select formControlName="workStudyHours" class="styled-select">
+              <option value="0_2h">0-2h</option>
+              <option value="2_4h">2-4h</option>
+              <option value="4_6h">4-6h</option>
+              <option value="6h_or_more">6h or more</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Age</label>
+            <input type="number" formControlName="age" min="12" max="100" class="styled-input">
+          </div>
+        </div>
       </div>
-    </div>
 
-    <div class="form-group">
-      <label>Financial Stress (1 to 5):</label>
-      <input type="number" formControlName="financialStress" min="1" max="5">
-    </div>
+      <button type="submit" [disabled]="form.invalid || loading" class="submit-btn">
+        {{ loading ? 'Processing...' : 'Get Analysis' }}
+        <span *ngIf="loading" class="spinner"></span>
+      </button>
 
-    <div class="form-group">
-      <label>Academic Pressure (1 to 5):</label>
-      <input type="number" formControlName="academicPressure" min="1" max="5">
-    </div>
-
-    <div class="form-group">
-      <label>Sleep Duration:</label>
-      <select formControlName="sleepDuration">
-        <option value="less_than_4h">Less than 4h</option>
-        <option value="4_to_6h">4 to 6h</option>
-        <option value="6_to_8h">6 to 8h</option>
-        <option value="more_than_8h">More than 8h</option>
-      </select>
-    </div>
-
-    <div class="form-group">
-      <label>Family History of Mental Illness:</label>
-      <div class="radio-group">
-        <label>
-          <input type="radio" formControlName="familyHistory" value="yes"> Yes
-        </label>
-        <label>
-          <input type="radio" formControlName="familyHistory" value="no"> No
-        </label>
+      <div *ngIf="error" class="error-message">
+        <i class="error-icon">⚠️</i> {{ error }}
       </div>
-    </div>
+    </form>
 
-    <div class="form-group">
-      <label>CGPA (Grade Point Average):</label>
-      <input type="number" formControlName="cgpa" min="0" max="10" step="0.1">
-    </div>
-
-    <div class="form-group">
-      <label>Study Satisfaction (1 to 5):</label>
-      <input type="number" formControlName="studySatisfaction" min="1" max="5">
-    </div>
-
-    <div class="form-group">
-      <label>Work/Study Hours:</label>
-      <select formControlName="workStudyHours">
-        <option value="0_2h">0-2h</option>
-        <option value="2_4h">2-4h</option>
-        <option value="4_6h">4-6h</option>
-        <option value="6h_or_more">6h or more</option>
-      </select>
-    </div>
-
-    <div class="form-group">
-      <label>Dietary Habits:</label>
-      <select formControlName="dietaryHabits">
-        <option value="healthy">Healthy</option>
-        <option value="moderate">Moderate</option>
-        <option value="poor">Poor</option>
-        <option value="unhealthy">Unhealthy</option>
-      </select>
-    </div>
-
-    <div class="form-group">
-      <label>Age:</label>
-      <input type="number" formControlName="age" min="12" max="100">
-    </div>
-
-    <button type="submit" [disabled]="form.invalid || loading">
-      {{ loading ? 'Processando...' : 'Enviar' }}
-    </button>
-
-    <div *ngIf="error" class="error-message">
-      {{ error }}
-    </div>
-  </form>
-
-  <ng-template #resultTemplate>
-    <div class="result-container">
-      <h2>Resultado da Análise</h2>
-      <p><strong>Status:</strong> {{ result.resultado }}</p>
-      <p><strong>Probabilidade:</strong> {{ result.probabilidade }}%</p>
-      <button (click)="result = null">Realizar nova análise</button>
-    </div>
-  </ng-template>
+    <ng-template #resultTemplate>
+      <div class="result-container">
+        <div class="result-card">
+          <h2>Analysis Result</h2>
+          <div class="result-content">
+            <div class="result-item">
+              <span class="result-label">Status:</span>
+              <span class="result-value" [class.high-risk]="result.resultado === 'High Risk'">
+                {{ result.resultado }}
+              </span>
+            </div>
+            <div class="result-item">
+              <span class="result-label">Probability:</span>
+              <span class="result-value">{{ result.probabilidade }}%</span>
+            </div>
+          </div>
+          <div class="result-actions">
+            <button (click)="result = null" class="new-analysis-btn">
+              New Analysis
+            </button>
+            <button class="resources-btn" *ngIf="result.resultado === 'High Risk'">
+              Get Help
+            </button>
+          </div>
+        </div>
+      </div>
+    </ng-template>
+  </div>
 </div>
